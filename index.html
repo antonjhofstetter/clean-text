@@ -8,14 +8,15 @@
 <body>
     
 <label for="inputText">Input Text:</label>
-  <textarea id="inputText" rows="4" cols="50"></textarea>
-  <br>
-  <button onclick="convertText()">Convert to UTF-8</button>
-  <br>
-  <label for="outputText">Output Text (UTF-8):</label>
-  <textarea id="outputText" rows="4" cols="50" readonly></textarea>
-
-  <script>
+<textarea id="inputText" rows="4" cols="50"></textarea>
+<br>
+<button onclick="convertText()">Convert to UTF-8</button>
+<br>
+<label for="outputText">Output Text (UTF-8):</label>
+<textarea id="outputText" rows="4" cols="50" readonly></textarea>
+<button onclick="filterAndCopy()">Filter and Copy</button>
+    
+    <script>
     function convertText() {
       // Get the input text from the input field
       const inputText = document.getElementById('inputText').value;
@@ -28,11 +29,7 @@
       // Display the converted text in the output field
       document.getElementById('outputText').value = convertedText;
     }
-  </script>
-
-    <button onclick="filterAndCopy()">Filter and Copy</button>
-
-<script>
+  
 function stripNonMatching(inputText, regex) {
     return inputText.replace(new RegExp(`[^${regex.source}]`, 'g'), '');
 }
