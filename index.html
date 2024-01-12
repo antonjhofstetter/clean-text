@@ -25,6 +25,28 @@ function copyToClipboard() {
         });
 }
 </script>
+    
+<label for="inputText">Input Text:</label>
+  <textarea id="inputText" rows="4" cols="50"></textarea>
+  <br>
+  <button onclick="convertText()">Convert to UTF-8</button>
+  <br>
+  <label for="outputText">Output Text (UTF-8):</label>
+  <textarea id="outputText" rows="4" cols="50" readonly></textarea>
 
+  <script>
+    function convertText() {
+      // Get the input text from the input field
+      const inputText = document.getElementById('inputText').value;
+
+      // Convert the input text to UTF-8
+      const inputTextBuffer = new TextEncoder().encode(inputText);
+      const convertedTextBuffer = new Uint8Array(inputTextBuffer).buffer;
+      const convertedText = new TextDecoder('utf-8').decode(convertedTextBuffer);
+
+      // Display the converted text in the output field
+      document.getElementById('outputText').value = convertedText;
+    }
+  </script>
 </body>
 </html>
