@@ -8,12 +8,12 @@
 <body>
     
 <label for="inputText">Input Text:</label>
-<textarea id="inputText" rows="4" cols="50"></textarea>
+<textarea id="inputText" rows="20" cols="80"></textarea>
 <br>
 <button onclick="convertText()">Convert to UTF-8</button>
 <br>
 <label for="outputText">Output Text (UTF-8):</label>
-<textarea id="outputText" rows="4" cols="50" readonly></textarea>
+<textarea id="outputText" rows="20" cols="80" readonly></textarea>
 <button onclick="filterAndCopy()">Filter and Copy</button>
     
     <script>
@@ -45,7 +45,8 @@ function filterAndCopy() {
     const filteredText = stripNonMatching(inputText, allowedCharactersRegex);
 
     // Prompt user for permission to copy to clipboard
-    if (filteredText && confirm('Do you want to copy the filtered text to the clipboard?')) {
+    //if (filteredText && confirm('Do you want to copy the filtered text to the clipboard?')) {
+    if (filteredText) {
         // Copy the filtered text to the clipboard
         navigator.clipboard.writeText(filteredText)
             .then(() => {
