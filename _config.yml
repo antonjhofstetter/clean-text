@@ -1,0 +1,27 @@
+# Site settings
+title: SpriteFoundry Tools
+description: A bunch of random doodads.
+baseurl: "" # the subpath of your site, e.g. /blog
+
+# Build settings
+markdown: kramdown
+theme: jekyll-minimal
+
+# Jekyll Minimal theme settings
+minimal_theme:
+  skin: default
+  accent_color: "#2C65DE" # Change this to your desired accent color
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - _config.dev.yml
+  - README.md
