@@ -6,25 +6,6 @@
     <title>Clipboard Copy Example</title>
 </head>
 <body>
-
-<div>
-    <p>Click the button to copy the text to the clipboard:</p>
-    <button onclick="copyToClipboard()">Copy Text</button>
-</div>
-
-<script>
-function copyToClipboard() {
-    const textToCopy = "Hello, this text will be copied to the clipboard!";
-
-    navigator.clipboard.writeText(textToCopy)
-        .then(() => {
-            alert('Text copied to clipboard: ' + textToCopy);
-        })
-        .catch(err => {
-            console.error('Unable to copy text to clipboard', err);
-        });
-}
-</script>
     
 <label for="inputText">Input Text:</label>
   <textarea id="inputText" rows="4" cols="50"></textarea>
@@ -48,5 +29,36 @@ function copyToClipboard() {
       document.getElementById('outputText').value = convertedText;
     }
   </script>
+
+    <button onclick="filterAndCopy()">Filter and Copy</button>
+
+<script>
+function stripNonMatching(inputText, regex) {
+    return inputText.replace(new RegExp(`[^${regex.source}]`, 'g'), '');
+}
+
+function filterAndCopy() {
+    const inputElement = document.getElementById('inputText');
+    const inputText = inputElement.value;
+
+    // Define the regular expression for allowed characters
+    const allowedCharactersRegex = /[A-Za-z0-9!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]/g;
+
+    // Use the stripNonMatching function to filter the text
+    const filteredText = stripNonMatching(inputText, allowedCharactersRegex);
+
+    // Prompt user for permission to copy to clipboard
+    if (filteredText && confirm('Do you want to copy the filtered text to the clipboard?')) {
+        // Copy the filtered text to the clipboard
+        navigator.clipboard.writeText(filteredText)
+            .then(() => {
+                alert('Filtered text copied to clipboard: ' + filteredText);
+            })
+            .catch(err => {
+                console.error('Unable to copy text to clipboard', err);
+            });
+    }
+}
+</script>
 </body>
 </html>
