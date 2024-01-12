@@ -3,60 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clipboard Copy Example</title>
+    <title>Text Cleanup</title>
 </head>
 <body>
-    
-<label for="inputText">Input Text:</label>
-<textarea id="inputText" rows="20" cols="80"></textarea>
-<br>
-<button onclick="convertText()">Convert to UTF-8</button>
-<br>
-<label for="outputText">Output Text (UTF-8):</label>
-<textarea id="outputText" rows="20" cols="80" readonly></textarea>
-<button onclick="filterAndCopy()">Filter and Copy</button>
+    <label for="inputText">Input</label>
+    <textarea id="inputText" rows="20" cols="80"></textarea>
+    <br>
+    <label for="outputText">Output</label>
+    <textarea id="outputText" rows="20" cols="80" readonly></textarea>
+    <br>
+    <button onclick="cleanAndCopy()">Clean & Copy</button>
     
     <script>
-    function convertText() {
-      // Get the input text from the input field
-      const inputText = document.getElementById('inputText').value;
+    function cleanAndCopy() {
+        const inputTextField = document.getElementById('inputText');
+        const outputTextField = document.getElementById('outputText');
+        
+        const inputTextBuffer = new TextEncoder().encode(inputTextField.value);   
+        const convertedTextBuffer = new Uint8Array(inputTextBuffer).buffer;
+        const convertedText = new TextDecoder('utf-8').decode(convertedTextBuffer);
+        
+        const allowedCharactersRegex = /[A-Za-z0-9!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ ]/g;
+        const filteredText = convertedText.replace(allowedCharactersRegex, '');
 
-      // Convert the input text to UTF-8
-      const inputTextBuffer = new TextEncoder().encode(inputText);
-      const convertedTextBuffer = new Uint8Array(inputTextBuffer).buffer;
-      const convertedText = new TextDecoder('utf-8').decode(convertedTextBuffer);
-
-      // Display the converted text in the output field
-      document.getElementById('outputText').value = convertedText;
-    }
-  
-function stripNonMatching(inputText, regex) {
-    return inputText.replace(new RegExp(`[^${regex.source}]`, 'g'), '');
-}
-
-function filterAndCopy() {
-    const inputElement = document.getElementById('inputText');
-    const inputText = inputElement.value;
-
-    // Define the regular expression for allowed characters
-    const allowedCharactersRegex = /[A-Za-z0-9!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~]/g;
-
-    // Use the stripNonMatching function to filter the text
-    const filteredText = stripNonMatching(inputText, allowedCharactersRegex);
-
-    // Prompt user for permission to copy to clipboard
-    //if (filteredText && confirm('Do you want to copy the filtered text to the clipboard?')) {
-    if (filteredText) {
-        // Copy the filtered text to the clipboard
+        outputTextField.value = filteredText;
         navigator.clipboard.writeText(filteredText)
             .then(() => {
-                alert('Filtered text copied to clipboard: ' + filteredText);
+                alert('Copied!');
             })
             .catch(err => {
                 console.error('Unable to copy text to clipboard', err);
             });
-    }
-}
+        }
+        
 </script>
 </body>
 </html>
