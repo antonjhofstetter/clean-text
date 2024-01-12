@@ -5,7 +5,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 
 # Build settings
 markdown: kramdown
-theme: jekyll-minimal
+theme: jekyll-theme-minimal
 
 # Jekyll Minimal theme settings
 minimal_theme:
