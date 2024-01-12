@@ -24,12 +24,12 @@
             const inputTextField = document.getElementById('inputText');
             const outputTextField = document.getElementById('outputText');
             
-            const inputTextBuffer = new TextEncoder().encode(inputTextField.value);   
+            const inputTextBuffer = new TextEncoder().encode(inputTextField.value);
             const convertedTextBuffer = new Uint8Array(inputTextBuffer).buffer;
             const convertedText = new TextDecoder('utf-8').decode(convertedTextBuffer);
             
-            const allowedCharactersRegex = /[A-Za-z0-9!"#$%&'()*+,-./:;<=>?@[\\\r\n]^_`{|}~ ]/g;
-            const filteredText = convertedText.replace(allowedCharactersRegex, '');
+            const filteredText = convertedText.replace(/[A-Za-z0-9!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ ]+/g, '');
+            const cleanText = filteredText.replace(/[\s\r\n]+/g, ' ');
             
             outputTextField.value = filteredText;
             navigator.clipboard.writeText(filteredText)
