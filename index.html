@@ -8,34 +8,39 @@
 <body>
     <label for="inputText">Input</label>
     <textarea id="inputText" rows="20" cols="80"></textarea>
+    <button onclick="reset()">Clear Text</button>
     <br>
     <label for="outputText">Output</label>
     <textarea id="outputText" rows="20" cols="80" readonly></textarea>
-    <br>
     <button onclick="cleanAndCopy()">Clean & Copy</button>
-    
     <script>
-    function cleanAndCopy() {
-        const inputTextField = document.getElementById('inputText');
-        const outputTextField = document.getElementById('outputText');
-        
-        const inputTextBuffer = new TextEncoder().encode(inputTextField.value);   
-        const convertedTextBuffer = new Uint8Array(inputTextBuffer).buffer;
-        const convertedText = new TextDecoder('utf-8').decode(convertedTextBuffer);
-        
-        const allowedCharactersRegex = /[A-Za-z0-9!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ ]/g;
-        const filteredText = convertedText.replace(allowedCharactersRegex, '');
-
-        outputTextField.value = filteredText;
-        navigator.clipboard.writeText(filteredText)
-            .then(() => {
-                alert('Copied!');
-            })
-            .catch(err => {
-                console.error('Unable to copy text to clipboard', err);
-            });
+    
+        function reset() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputText').value = '';
         }
         
-</script>
+        function cleanAndCopy() {
+            const inputTextField = document.getElementById('inputText');
+            const outputTextField = document.getElementById('outputText');
+            
+            const inputTextBuffer = new TextEncoder().encode(inputTextField.value);   
+            const convertedTextBuffer = new Uint8Array(inputTextBuffer).buffer;
+            const convertedText = new TextDecoder('utf-8').decode(convertedTextBuffer);
+            
+            const allowedCharactersRegex = /[A-Za-z0-9!"#$%&'()*+,-./:;<=>?@[\\\r\n]^_`{|}~ ]/g;
+            const filteredText = convertedText.replace(allowedCharactersRegex, '');
+            
+            outputTextField.value = filteredText;
+            navigator.clipboard.writeText(filteredText)
+                .then(() => {
+                    alert('Copied!');
+                })
+                .catch(err => {
+                    console.error('Unable to copy text to clipboard', err);
+                });
+        }
+        
+    </script>
 </body>
 </html>
