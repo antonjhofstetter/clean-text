@@ -6,35 +6,32 @@
     <title>Text Cleanup</title>
 </head>
 <body>
-    <label for="inputText">Input</label>
-    <textarea id="inputText" rows="20" cols="80"></textarea>
-    <button onclick="reset()">Clear Text</button>
-    <br>
     <label for="outputText">Output</label>
-    <textarea id="outputText" rows="20" cols="80" readonly></textarea>
-    <button onclick="cleanAndCopy()">Clean & Copy</button>
+    <textarea id="textField" rows="20" cols="80" readonly></textarea>
+    <button id="theButton" onclick="cleanAndCopy()">Clean & Copy</button>
     <script>
-    
+
+        const button = document.getElementById('theButton');
+        const textField = document.getElementById('textField');
+        
         function reset() {
-            document.getElementById('inputText').value = '';
-            document.getElementById('outputText').value = '';
+            
         }
         
         function cleanAndCopy() {
-            const inputTextField = document.getElementById('inputText');
-            const outputTextField = document.getElementById('outputText');
             
-            const inputTextBuffer = new TextEncoder().encode(inputTextField.value);
+            const inputTextBuffer = new TextEncoder().encode(textField.value);
             const convertedTextBuffer = new Uint8Array(inputTextBuffer).buffer;
             const convertedText = new TextDecoder('utf-8').decode(convertedTextBuffer);
             
             const filteredText = convertedText.replace(/[A-Za-z0-9!"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ ]+/g, '');
             const cleanText = filteredText.replace(/[\s\r\n]+/g, ' ');
             
-            outputTextField.value = cleanText;
+            textField.value = cleanText;
             navigator.clipboard.writeText(cleanText)
                 .then(() => {
-                    //alert('Copied!');
+                    button.value = "Copied!";
+                    document.getElementById('textField').value = '';
                 })
                 .catch(err => {
                     console.error('Unable to copy text to clipboard', err);
